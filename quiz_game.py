@@ -33,3 +33,25 @@ for question in questions:
         print("INCORRECT")
         print(f"{answers[question_num]} is the correct answer")
     question_num +=1
+#print the result which is the correct answers of each questions, answers of the player, and score in percentage
+print("-----------------------------------")
+print("             RESULTS               ")
+print("-----------------------------------")
+
+print("answers: ", end="")
+for answer in answers:
+    print(answer, end=" ")
+print()
+
+print("guesses: ", end="")
+for guess in guesses:
+    print(guess, end=" ")
+print()
+
+score = int(score / len(questions) * 100)
+print(f"Your score is: {score}%")
+
+
+
+#reference video https://www.youtube.com/watch?v=zehwgTB0vV8
+#reference of questions and answers https://pythoninstitute.org/about-python#:~:text=Python%20was%20created%20by%20Guido,called%20Monty%20Python's%20Flying%20Circus.
