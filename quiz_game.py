@@ -13,3 +13,7 @@ options = (("A. Python", "B. CSS", "C. C++", "D. Java"),
            ("A. Guido van Rossum", "B. Python Software Foundation", "C. Rossum Foundation", "D. Python Programming Association"))
 #list down the correct answer of each questions
 answers = ("A", "D", "C", "D", "B")
+# Initialize lists and counters to track player's guesses, current score, and question number
+guesses = []
+score = 0
+question_num = 0
