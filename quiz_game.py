@@ -30,7 +30,7 @@ while True:
         password = input("Enter your password: ")
         
         with open("quiz_game_account.txt", "r") as file:
-            account = file.readlines()
+            accounts = file.readlines()
             for account in accounts:
                 stored_username, stored_password = account.strip().split(",")
                 if stored_username == username and stored_password == password:
@@ -84,6 +84,39 @@ while True:
                 file.write(f"Q: {questions[i]}\nA: {answers[i]}\n\n")
                 
         print("Your quiz has been saved in the folder.")
+        
+    elif folder_choice == "2":
+        user_folder_path = os.path.join(username)
+        
+        if os.path.exists(user_folder_path):
+            existing_folders = [f for f in os.listdir(user_folder_path) if os.path.isdir(os.path.join(user_folder_path, f))]
+            
+            if existing_folders:
+                print("Here are your existing folders:")
+                for idx, folder in enumerate(existing_folders, start=1):
+                    print(f"{idx}. {folder}")
+                
+                folder_index = int(input("Choose a folder by number (1-{len(existing_folder)}): "))
+                
+                if 1 <= folder_index <= len(existing_folders):
+                    folder_name = existing_folders[folder_index - 1]
+                    folder_path = os.path.join(user_folder_path, folder_name)
+                    print(f"You chose the folder: {folder_name}")
+                    
+                    try:
+                        with open(os.path.join(folder_path, "quiz.txt"), "r") as file:
+                            content = file.read()
+                            print("Here's the quiz content:\n")
+                            print(content)
+                    except FileNotFoundError:
+                        print("No quiz found in this folder. Please create a quiz first")
+                else:
+                    print("Invalid choice. Please try again.")
+            else:
+                print("No folders found. Please create a new folder first.")
+        
+        else:
+            print(f"User folder '{username}' does not exist.")
         
 #list down the questions for the quiz
 questions = ("What programming language is a widely-used, interpreted, object-oriented, and high-level programming language with dynamic semantics, used for general-purpose programming?: ",
