@@ -1,6 +1,9 @@
 #Python Quiz Game
 import os
 
+#file path for .txt file
+file_path = r'D:\BSCpE\PLD\Individual\quiz_game\quiz_game_account.txt'
+
 #loop for account sign up and log in
 print("Welcome to the QuizUP!")
 while True:
@@ -10,37 +13,44 @@ while True:
     
     option = input("Choose an option (1, 2, 3): ")
     
+    #option 1
     if option == "1":
         username = input("Enter your username: ")
         password = input("Enter your password: ")
         
-        with open("quiz_game_account.txt", "r") as file:
+        with open(file_path, "r") as file:
             accounts = file.readlines()
+            
+            account_exists = False #checking if the account already exists
             for account in accounts:
                 stored_username = account.split(",")[0]
                 if stored_username == username:
+                    account_exists = True
                     print("Account already exist! Please choose a different username.")
                     break
-                else:
-                    with open("quiz_game_account.txt", "a") as file:
-                        file.write(f"{username},{password}\n")
-                    print("Account created successfully")
+            if not account_exists:
+                with open(file_path, "a") as file:
+                    file.write(f"{username},{password}\n")
+                print("Account created successfully")
+    #option 2            
     elif option == "2":
         username = input("Enter your username: ")
         password = input("Enter your password: ")
         
-        with open("quiz_game_account.txt", "r") as file:
+        with open(file_path, "r") as file:
             accounts = file.readlines()
+            logged_in = False
             for account in accounts:
                 stored_username, stored_password = account.strip().split(",")
                 if stored_username == username and stored_password == password:
+                    logged_in = True
                     print("Log in successful!")
                     break
-                else:
-                    print("Invalid username or password")
-                    continue
-        
+            if not logged_in:
+                print("Invalid username or password")
+                continue
         break
+    #option 3
     elif option == "3":
         print("Exiting the program.")
         break
@@ -79,7 +89,7 @@ while True:
             questions.append(question)
             answers.append(answer)
             
-        with open(os.path.join(folder_path, "quiz_game_account.txt"), "w") as file:
+        with open(os.path.join(folder_path, file_path), "w") as file:
             for i in range(len(questions)):
                 file.write(f"Q: {questions[i]}\nA: {answers[i]}\n\n")
                 
@@ -104,7 +114,7 @@ while True:
                     print(f"You chose the folder: {folder_name}")
                     
                     try:
-                        with open(os.path.join(folder_path, "quiz.txt"), "r") as file:
+                        with open(os.path.join(folder_path, file_path), "r") as file:
                             content = file.read()
                             print("Here's the quiz content:\n")
                             print(content)
@@ -125,59 +135,28 @@ while True:
     else:
         print("Invalid option. Please try again.")
         
-#list down the questions for the quiz
-questions = ("What programming language is a widely-used, interpreted, object-oriented, and high-level programming language with dynamic semantics, used for general-purpose programming?: ",
-             "Who created python?: ",
-             "What is the date of first released of python?: ",
-             "Where did the name of Python came from?: ", 
-             "The python is maintained by?: ")
-#list down the choices of each questions
-options = (("A. Python", "B. CSS", "C. C++", "D. Java"),
-           ("A. Anders Hejlsberg", "B. Bjarne Stroustrup", "C. Ada Lovelace", "D. Guido van Rossum"),
-           ("A. February 21, 1989", "B. January 21, 1991", "C. February 20, 1991", "D. March 20, 1989"),
-           ("A. Large Snake", "B. Kaa from The Jungle Book", "C. Ekans from Pokémon", "D. Monty Python's Flying Circus"),
-           ("A. Guido van Rossum", "B. Python Software Foundation", "C. Rossum Foundation", "D. Python Programming Association"))
-#list down the correct answer of each questions
-answers = ("A", "D", "C", "D", "B")
-# Initialize lists and counters to track player's guesses, current score, and question number
-guesses = []
-score = 0
-question_num = 0
-#print the questions and options/answers
-for question in questions:
-    print("-----------------------------------")
-    print(question)
-    for option in options[question_num]:
-        print(option)
-        
-    guess = input("Enter (A, B, C, D): ").upper()
-    guesses.append(guess)
-    if guess == answers[question_num]:
-        score += 1
-        print("CORRECT")
-    else:
-        print("INCORRECT")
-        print(f"{answers[question_num]} is the correct answer")
-    question_num +=1
-#print the result which is the correct answers of each questions, answers of the player, and score in percentage
-print("-----------------------------------")
-print("             RESULTS               ")
-print("-----------------------------------")
-
-print("answers: ", end="")
-for answer in answers:
-    print(answer, end=" ")
-print()
-
-print("guesses: ", end="")
-for guess in guesses:
-    print(guess, end=" ")
-print()
-
-score = int(score / len(questions) * 100)
-print(f"Your score is: {score}%")
-
-
+    #Create and take quiz
+    take_quiz = input("Do you want to take a quiz in this folder? (yes/no): ").lower()
+    
+    if take_quiz == 'yes':
+        while True:
+            score = 0
+            for i in range(len(questions)):
+                print(f"Question {i+1}: {question[i]}")
+                user_answer = input("Your answer: ").strip()
+                if user_answer.lower() == answer[i].lower():
+                    score += 1
+                    print("Correct!")
+                else:
+                    print(f"Incorrect. The correct answer is: {answer[i]}")
+                    
+            print(f"Your final score: {score}/{len(questions)}")
+            score_percentage = int(score / len(question) * 100)
+            print(f"Your score percentage: {score_percentage}")
+            
+            retake_quiz = input("Would you like to retake the quiz? (yes/no: )").lower()
+            if retake_quiz != "yes":
+                break
 
 #reference video https://www.youtube.com/watch?v=zehwgTB0vV8
 #reference of questions and answers https://pythoninstitute.org/about-python#:~:text=Python%20was%20created%20by%20Guido,called%20Monty%20Python's%20Flying%20Circus.
