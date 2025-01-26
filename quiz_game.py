@@ -1,6 +1,8 @@
 #Python Quiz Game
+import os
+
 #loop for account sign up and log in
-print("Welcome to the QuizUP Game!")
+print("Welcome to the QuizUP!")
 while True:
     print("1. Create an Account")
     print("2. Log in")
@@ -44,6 +46,25 @@ while True:
         break
     else:
         print("Invalid option, please try again.")
+        
+#loop to create and use a quiz folder, and take quiz
+while True:
+    print("What would you like to do?")
+    print("1. Create a new quiz folder")
+    print("2. Use an existing quiz folder")
+    print("3. Exit the program")
+    
+    folder_choice = input("Choose an option (1, 2, 3): ")
+    
+    if folder_choice == "1":
+        folder_name = input("Enter a name for your new quiz folder: ")
+        folder_path = os.path.join(username, folder_name)
+        
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+            print(f"Folder '{folder_name}' created successfully!")
+        else:
+            print(f"The folder '{folder_name}' already exists.")
 #list down the questions for the quiz
 questions = ("What programming language is a widely-used, interpreted, object-oriented, and high-level programming language with dynamic semantics, used for general-purpose programming?: ",
              "Who created python?: ",
