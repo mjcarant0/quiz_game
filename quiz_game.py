@@ -32,6 +32,10 @@ while True:
                 with open(file_path, "a") as file:
                     file.write(f"{username},{password}\n")
                 print("Account created successfully")
+                
+                user_folder_path = os.path.join("D:\\BSCpE\\PLD\\Individual\\quiz_game", username) #create a folder for user
+                if not os.path.exists(user_folder_path):
+                    os.makedirs(user_folder_path)
     #option 2            
     elif option == "2":
         username = input("Enter your username: ")
@@ -66,17 +70,15 @@ while True:
     
     folder_choice = input("Choose an option (1, 2, 3): ")
     
+    #option 1
     if folder_choice == "1":
-        folder_name = input("Enter a name for your new quiz folder: ")
-        folder_path = os.path.join(username, folder_name)
+        user_folder_path = os.path.join("D:\\BSCpE\\PLD\\Individual\\quiz_game", username)
         
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-            print(f"Folder '{folder_name}' created successfully!")
-        else:
-            print(f"The folder '{folder_name}' already exists.")
-            
-        # Ask user to create questions and answers for the new quiz
+        quiz_folder_name = input("Enter the name of the new quiz folder: ")
+
+        quiz_file_name = f"{quiz_folder_name}.txt"
+        quiz_file_path = os.path.join(user_folder_path, quiz_file_name)
+        
         questions = []
         answers = []
         
@@ -84,53 +86,51 @@ while True:
             question = input("Enter a question (or type 'done' to finish): ")
             if question == "done":
                 break
-            answer = input(f"Enter the answer for '{question}: ")
-            
+            answer = input(f"Enter the answer for '{question}': ")
             questions.append(question)
             answers.append(answer)
             
-        with open(os.path.join(folder_path, file_path), "w") as file:
+        #save quiz to a .txt file
+        with open(quiz_file_path, "w") as file:
             for i in range(len(questions)):
                 file.write(f"Q: {questions[i]}\nA: {answers[i]}\n\n")
-                
-        print("Your quiz has been saved in the folder.")
         
+        print(f"Your quiz has been saved in {quiz_file_name}.")
+    
+    #option 2
     elif folder_choice == "2":
-        user_folder_path = os.path.join(username)
+        user_folder_path = os.path.join("D:\\BSCpE\\PLD\\Individual\\quiz_game", username)
         
         if os.path.exists(user_folder_path):
-            existing_folders = [f for f in os.listdir(user_folder_path) if os.path.isdir(os.path.join(user_folder_path, f))]
+            existing_files = [f for f in os.listdir(user_folder_path) if f.endswith(".txt")]
             
-            if existing_folders:
-                print("Here are your existing folders:")
-                for idx, folder in enumerate(existing_folders, start=1):
-                    print(f"{idx}. {folder}")
+            if existing_files:
+                print("Here are your existing quizzes:")
+                for idx, quiz_file in enumerate(existing_files, start=1):
+                    print(f"{idx}. {quiz_file}")
                 
-                folder_index = int(input("Choose a folder by number (1-{len(existing_folder)}): "))
-                
-                if 1 <= folder_index <= len(existing_folders):
-                    folder_name = existing_folders[folder_index - 1]
-                    folder_path = os.path.join(user_folder_path, folder_name)
-                    print(f"You chose the folder: {folder_name}")
+                quiz_index = int(input(f"Choose a quiz (1-{len(existing_files)}): "))
+                if 1 <= quiz_index <= len(existing_files):
+                    quiz_file_name = existing_files[quiz_index - 1]
+                    quiz_file_path = os.path.join(user_folder_path, quiz_file_name)
+                    print(f"You chose the quiz: {quiz_file_name}")
                     
-                    try:
-                        with open(os.path.join(folder_path, file_path), "r") as file:
-                            content = file.read()
-                            print("Here's the quiz content:\n")
-                            print(content)
-                    except FileNotFoundError:
-                        print("No quiz found in this folder. Please create a quiz first")
+                    #load and display quiz content
+                    with open(quiz_file_path, "r") as file:
+                        content = file.read()
+                        print("Here's the quiz content:\n")
+                        print(content)
                 else:
                     print("Invalid choice. Please try again.")
             else:
-                print("No folders found. Please create a new folder first.")
-        
+                print("No quizzes found. Please create a new quiz first.")
         else:
             print(f"User folder '{username}' does not exist.")
-            
+    
+    #option 3
     elif folder_choice == "3":
         print("Exiting the program.")
-        break  # Exit the program entirely
+        break 
     
     else:
         print("Invalid option. Please try again.")
@@ -159,4 +159,3 @@ while True:
                 break
 
 #reference video https://www.youtube.com/watch?v=zehwgTB0vV8
-#reference of questions and answers https://pythoninstitute.org/about-python#:~:text=Python%20was%20created%20by%20Guido,called%20Monty%20Python's%20Flying%20Circus.
