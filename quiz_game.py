@@ -1,4 +1,49 @@
 #Python Quiz Game
+#loop for account sign up and log in
+print("Welcome to the QuizUP Game!")
+while True:
+    print("1. Create an Account")
+    print("2. Log in")
+    print("3. Exit")
+    
+    option = int(input("Choose an option (1, 2, 3): "))
+    
+    if option == "1":
+        username = input("Enter your username: ")
+        password = input("Enter your password: ")
+        
+        with open("quiz_game_account.txt", "r") as file:
+            accounts = file.readlines()
+            for account in accounts:
+                stored_username = account.split(",")[0]
+                if stored_username == username:
+                    print("Account already exist! Please choose a different username.")
+                    break
+                else:
+                    with open("quiz_game_account.txt", "a") as file:
+                        file.write(f"{username},{password}\n")
+                    print("Account created successfully")
+    elif option == "2":
+        username = input("Enter your username: ")
+        password = input("Enter your password: ")
+        
+        with open("quiz_game_account.txt", "r") as file:
+            account = file.readlines()
+            for account in accounts:
+                stored_username, stored_password = account.strip().split(",")
+                if stored_username == username and stored_password == password:
+                    print("Log in successful!")
+                    break
+                else:
+                    print("Invalid username or password")
+                    continue
+        
+        break
+    elif option == "3":
+        print("Exiting the program.")
+        break
+    else:
+        print("Invalid option, please try again.")
 #list down the questions for the quiz
 questions = ("What programming language is a widely-used, interpreted, object-oriented, and high-level programming language with dynamic semantics, used for general-purpose programming?: ",
              "Who created python?: ",
