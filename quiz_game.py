@@ -8,7 +8,7 @@ while True:
     print("2. Log in")
     print("3. Exit")
     
-    option = int(input("Choose an option (1, 2, 3): "))
+    option = input("Choose an option (1, 2, 3): ")
     
     if option == "1":
         username = input("Enter your username: ")
@@ -65,6 +65,26 @@ while True:
             print(f"Folder '{folder_name}' created successfully!")
         else:
             print(f"The folder '{folder_name}' already exists.")
+            
+        # Ask user to create questions and answers for the new quiz
+        questions = []
+        answers = []
+        
+        while True:
+            question = input("Enter a question (or type 'done' to finish): ")
+            if question == "done":
+                break
+            answer = input(f"Enter the answer for '{question}: ")
+            
+            questions.append(question)
+            answers.append(answer)
+            
+        with open(os.path.join(folder_path, "quiz_game_account.txt"), "w") as file:
+            for i in range(len(questions)):
+                file.write(f"Q: {questions[i]}\nA: {answers[i]}\n\n")
+                
+        print("Your quiz has been saved in the folder.")
+        
 #list down the questions for the quiz
 questions = ("What programming language is a widely-used, interpreted, object-oriented, and high-level programming language with dynamic semantics, used for general-purpose programming?: ",
              "Who created python?: ",
