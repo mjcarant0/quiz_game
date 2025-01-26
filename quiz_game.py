@@ -117,6 +117,13 @@ while True:
         
         else:
             print(f"User folder '{username}' does not exist.")
+            
+    elif folder_choice == "3":
+        print("Exiting the program.")
+        break  # Exit the program entirely
+    
+    else:
+        print("Invalid option. Please try again.")
         
 #list down the questions for the quiz
 questions = ("What programming language is a widely-used, interpreted, object-oriented, and high-level programming language with dynamic semantics, used for general-purpose programming?: ",
