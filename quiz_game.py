@@ -115,6 +115,17 @@ while True:
                     quiz_file_path = os.path.join(user_folder_path, quiz_file_name)
                     print(f"You chose the quiz: {quiz_file_name}")
                     
+                    with open(quiz_file_path, "r") as file:
+                        lines = file.readlines()
+                        
+                    questions = []
+                    answers = []
+                    for i in range(0, len(lines), 3):
+                        question = lines[i].strip().split(": ")[1]
+                        answer = lines[i + 1].strip().split(": ")[1]
+                        questions.append(question)
+                        answers.append(answer)
+                    
                 else:
                     print("Invalid choice. Please try again.")
             else:
@@ -136,21 +147,22 @@ while True:
     if take_quiz == 'yes':
         while True:
             score = 0
+            
             for i in range(len(questions)):
-                print(f"Question {i+1}: {question[i]}")
+                print(f"Question {i + 1}: {questions[i]}")
                 user_answer = input("Your answer: ").strip()
-                if user_answer.lower() == answer[i].lower():
+                if user_answer.lower() == answers[i].lower():
                     score += 1
                     print("Correct!")
                 else:
-                    print(f"Incorrect. The correct answer is: {answer[i]}")
+                    print(f"Incorrect. The correct answer is: {answers[i]}")
                     
             print(f"Your final score: {score}/{len(questions)}")
-            score_percentage = int(score / len(question) * 100)
-            print(f"Your score percentage: {score_percentage}")
+            score_percentage = int(score / len(questions) * 100)
+            print(f"Your score percentage: {score_percentage}%")
             
-            retake_quiz = input("Would you like to retake the quiz? (yes/no: )").lower()
+            retake_quiz = input("Would you like to retake the quiz? (yes/no): ").lower()
             if retake_quiz != "yes":
                 break
 
-#reference video https://www.youtube.com/watch?v=zehwgTB0vV8
+#reference video: https://www.youtube.com/watch?v=zehwgTB0vV8, https://www.youtube.com/watch?v=uXxAGiazxHY
