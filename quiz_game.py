@@ -1,22 +1,24 @@
 #Python Quiz Game
 import os
+import colorama
+from colorama import Fore, Back, Style
 
 #file path for .txt file
 file_path = r'D:\BSCpE\PLD\Individual\quiz_game\quiz_game_account.txt'
 
 #loop for account sign up and log in
-print("Welcome to the QuizUP!")
+print(f"{Back.CYAN}Welcome to the QuizUP!{Style.RESET_ALL}")
 while True:
     print("1. Create an Account")
     print("2. Log in")
     print("3. Exit")
     
-    option = input("Choose an option (1, 2, 3): ")
+    option = input(f"{Style.BRIGHT}Choose an option (1, 2, 3): {Style.RESET_ALL}")
     
     #option 1
     if option == "1":
-        username = input("Enter your username: ")
-        password = input("Enter your password: ")
+        username = input(f"{Fore.MAGENTA}Enter your username: {Style.RESET_ALL}")
+        password = input(f"{Fore.MAGENTA}Enter your password: {Style.RESET_ALL}")
         
         with open(file_path, "r") as file:
             accounts = file.readlines()
@@ -26,20 +28,20 @@ while True:
                 stored_username = account.split(",")[0]
                 if stored_username == username:
                     account_exists = True
-                    print("Account already exist! Please choose a different username.")
+                    print(f"{Fore.RED}Account already exist! Please choose a different username.{Style.RESET_ALL}")
                     break
             if not account_exists:
                 with open(file_path, "a") as file:
                     file.write(f"{username},{password}\n")
-                print("Account created successfully")
+                print(f"{Fore.GREEN}Account created successfully{Style.RESET_ALL}")
                 
                 user_folder_path = os.path.join("D:\\BSCpE\\PLD\\Individual\\quiz_game", username) #create a folder for user
                 if not os.path.exists(user_folder_path):
                     os.makedirs(user_folder_path)
     #option 2            
     elif option == "2":
-        username = input("Enter your username: ")
-        password = input("Enter your password: ")
+        username = input(f"{Fore.MAGENTA}Enter your username: {Style.RESET_ALL}")
+        password = input(f"{Fore.MAGENTA}Enter your password: {Style.RESET_ALL}")
         
         with open(file_path, "r") as file:
             accounts = file.readlines()
@@ -48,18 +50,18 @@ while True:
                 stored_username, stored_password = account.strip().split(",")
                 if stored_username == username and stored_password == password:
                     logged_in = True
-                    print("Log in successful!")
+                    print(f"{Fore.GREEN}Log in successful!{Style.RESET_ALL}")
                     break
             if not logged_in:
-                print("Invalid username or password")
+                print(f"{Fore.RED}Invalid username or password{Style.RESET_ALL}")
                 continue
         break
     #option 3
     elif option == "3":
-        print("Exiting the program.")
+        print(f"{Back.RED}Exiting the program.{Style.RESET_ALL}")
         break
     else:
-        print("Invalid option, please try again.")
+        print(f"{Fore.RED}{Style.BRIGHT}Invalid option, please try again.{Style.RESET_ALL}")
         
 #loop to create and use a quiz folder, and take quiz
 while True:
@@ -68,7 +70,7 @@ while True:
     print("2. Use an existing quiz folder")
     print("3. Exit the program")
     
-    folder_choice = input("Choose an option (1, 2, 3): ")
+    folder_choice = input(f"{Style.BRIGHT}Choose an option (1, 2, 3): {Style.RESET_ALL}")
     
     #option 1
     if folder_choice == "1":
@@ -127,19 +129,19 @@ while True:
                         answers.append(answer)
                     
                 else:
-                    print("Invalid choice. Please try again.")
+                    print(f"{Fore.RED}Invalid choice. Please try again.{Style.RESET_ALL}")
             else:
-                print("No quizzes found. Please create a new quiz first.")
+                print(f"{Fore.RED}No quizzes found. Please create a new quiz first.{Style.RESET_ALL}")
         else:
-            print(f"User folder '{username}' does not exist.")
+            print(f"{Fore.RED}User folder '{username}' does not exist.{Style.RESET_ALL}")
     
     #option 3
     elif folder_choice == "3":
-        print("Exiting the program.")
+        print(f"{Back.RED}Exiting the program.{Style.RESET_ALL}")
         break 
     
     else:
-        print("Invalid option. Please try again.")
+        print(f"{Fore.RED}Invalid option. Please try again.{Style.RESET_ALL}")
         
     #Create and take quiz
     take_quiz = input("Do you want to take a quiz in this folder? (yes/no): ").lower()
@@ -153,9 +155,9 @@ while True:
                 user_answer = input("Your answer: ").strip()
                 if user_answer.lower() == answers[i].lower():
                     score += 1
-                    print("Correct!")
+                    print(f"{Fore.GREEN}Correct!{Style.RESET_ALL}")
                 else:
-                    print(f"Incorrect. The correct answer is: {answers[i]}")
+                    print(f"{Fore.RED}Incorrect. The correct answer is: {answers[i]}{Style.RESET_ALL}")
                     
             print(f"Your final score: {score}/{len(questions)}")
             score_percentage = int(score / len(questions) * 100)
