@@ -115,11 +115,6 @@ while True:
                     quiz_file_path = os.path.join(user_folder_path, quiz_file_name)
                     print(f"You chose the quiz: {quiz_file_name}")
                     
-                    #load and display quiz content
-                    with open(quiz_file_path, "r") as file:
-                        content = file.read()
-                        print("Here's the quiz content:\n")
-                        print(content)
                 else:
                     print("Invalid choice. Please try again.")
             else:
