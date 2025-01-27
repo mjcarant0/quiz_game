@@ -1,0 +1,9 @@
+Q: What programming language is a widely-used, interpreted, object-oriented, and high-level programming language with dynamic semantics, used for general-purpose programming?
+A: Python
+
+Q: Who created python?
+A: Guido van Rossum
+
+Q: What is the date of first released of python?
+A: February 20, 1991
+
